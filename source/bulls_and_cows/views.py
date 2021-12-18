@@ -4,13 +4,26 @@ from django.shortcuts import render
 
 
 def index_view(request):
-    return render(request, 'index.html')
-
-
+    if request.method == "GET":
+        return render(request, 'index.html')
+    elif request.method == "POST":
+        # Turning string to list of numbers
+        list_of_numbers = [int(i) for i in list(request.POST.get('input_number'))]
+        print(list_of_numbers)
+        checking_number = CheckNum(list_of_numbers)
+        checking_number.check_for_big_num()
+        checking_number.check_lenght()
+        checking_number.check_for_duplicates()
+        checking_number.validate()
+        checking_number.finding_bulls()
+        context = {
+            'number': request.POST.get('input_number')
+        }
+        return render(request, 'index.html', context)
 
 
 class CheckNum:
-    def __init__(self, guess_list: list) -> list:
+    def __init__(self, guess_list: list):
         self.guess_list = guess_list
         self.fixed_list = [5, 1, 2, 9]
 

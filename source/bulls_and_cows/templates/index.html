@@ -16,6 +16,16 @@
     </a>
   </div>
 </nav>
+<form action="/" method="POST" target="_self">
+    {% csrf_token %}
+    <div class="input-group input-group-lg mt-4 p-5">
+      <span class="input-group-text" id="input_number">Input Numbers:</span>
+      <input type="number" class="form-control" name="input_number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <div class="d-grid gap-2 p-5 m-4">
+      <button class="btn btn-primary mt-4" type="submit">Submit</button>
+    </div>
+</form>
 
 </body>
 </html>
