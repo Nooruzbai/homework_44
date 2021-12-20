@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+# my views are here.
 
 
 def index_view(request):
@@ -9,59 +9,43 @@ def index_view(request):
     elif request.method == "POST":
         # Turning string to list of numbers
         list_of_numbers = [int(i) for i in list(request.POST.get('input_number'))]
-        print(list_of_numbers)
-        checking_number = CheckNum(list_of_numbers)
-        checking_number.check_for_big_num()
-        checking_number.check_lenght()
-        checking_number.check_for_duplicates()
-        checking_number.validate()
-        checking_number.finding_bulls()
+        result = checking_numbers(list_of_numbers)
+        print(result)
         context = {
-            'number': request.POST.get('input_number')
+            'number': result
         }
         return render(request, 'index.html', context)
 
 
-class CheckNum:
-    def __init__(self, guess_list: list):
-        self.guess_list = guess_list
-        self.fixed_list = [5, 1, 2, 9]
+def history_view(request):
+    context
+    return render(request, 'history.html')
 
-    def check_for_big_num(self):
-        for number in self.guess_list:
-            if number > 9 or number < 0:
-                return "Number cannot be higher than 9 or less than 0"
 
-    def check_lenght(self):
-        if len(self.guess_list) > len(self.fixed_list):
-            return "Too many numbers"
-        elif len(self.guess_list) < len(self.fixed_list):
-            return "Not enough numbers"
-
-    def check_for_duplicates(self):
-        if len(self.fixed_list) != len(set(self.guess_list)):
+def checking_numbers(guess_numbers):
+    fixed_numbers = [5, 1, 2, 9]
+    if len(guess_numbers) > len(fixed_numbers):
+        return "Too many numbers"
+    elif len(guess_numbers) < len(fixed_numbers):
+        return "Not enough numbers"
+    else:
+        if len(fixed_numbers) != len(set(guess_numbers)):
             return "There shouldn't be any duplicates"
-
-    def validate(self):
-        message = None
-        if self.check_lenght():
-            message = self.check_lenght()
-        elif self.check_for_big_num():
-            message = self.check_for_big_num()
-        elif self.check_for_duplicates():
-            message = self.check_for_duplicates()
-        return message
-
-    def finding_bulls(self):
-        if not self.check_for_big_num() and not self.check_lenght() and not self.check_for_duplicates():
+        else:
             bulls = 0
             cows = 0
-            for num in range(len(self.fixed_list)):
-                if self.guess_list[num] == self.fixed_list[num]:
+            for num in range(len(fixed_numbers)):
+                if guess_numbers[num] == fixed_numbers[num]:
                     bulls += 1
-                elif self.guess_list[num] in self.fixed_list:
+                elif guess_numbers[num] in fixed_numbers:
                     cows += 1
-            if bulls == len(self.fixed_list):
+            if bulls == len(fixed_numbers):
                 return "You won!"
             else:
                 return f"You have got {bulls} 'Bulls' and {cows} 'Cows'"
+
+
+
+
+
+
