@@ -17,6 +17,15 @@
     </a>
   </div>
 </nav>
+<div>
+    {% for res in results %}
+        <p>MOVE {{ res.0 }}: RESULT: {{ res.1 }}</p>
+    {% endfor %}
+{#    Result: {% for res in results %}#}
+{#            print(res[1])#}
+{#            {% endfor %}#}
+</div>
+
 
 </body>
 </html>

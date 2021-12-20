@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 # my views are here.
 
+history = []
+
 
 def index_view(request):
     if request.method == "GET":
@@ -10,7 +12,7 @@ def index_view(request):
         # Turning string to list of numbers
         list_of_numbers = [int(i) for i in list(request.POST.get('input_number'))]
         result = checking_numbers(list_of_numbers)
-        print(result)
+        history.append(result)
         context = {
             'number': result
         }
@@ -18,8 +20,13 @@ def index_view(request):
 
 
 def history_view(request):
-    context
-    return render(request, 'history.html')
+    list_of_tuples = []
+    for item in enumerate(history, start=1):
+        list_of_tuples.append(item)
+    context = {
+        'results': list_of_tuples,
+    }
+    return render(request, 'history.html', context)
 
 
 def checking_numbers(guess_numbers):
